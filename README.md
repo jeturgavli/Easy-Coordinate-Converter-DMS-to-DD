@@ -20,7 +20,7 @@ To run this project, you'll need to have Python installed. You can install the n
     pip install -r requirements.txt
     ```
 ## Screenshots
-![Screenshot Description](Img/02.jpg)
+![Screenshot Description](img/02.jpg)
 ## Contributing
 - Feel free to fork this repository and contribute. Pull requests are welcome!
 
