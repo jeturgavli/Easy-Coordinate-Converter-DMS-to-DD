@@ -1,21 +1,9 @@
-import tkinter as tk
-from tkinter import messagebox
-from PIL import Image, ImageTk
+import customtkinter as ctk
+from PIL import Image
 import pyperclip
 import webbrowser
 
 def dms_to_dd(degrees, minutes, seconds):
-    """
-    Converts DMS (degrees, minutes, seconds) to decimal degrees.
-    
-    Parameters:
-    degrees (int): The degrees part of the DMS coordinate.
-    minutes (int): The minutes part of the DMS coordinate.
-    seconds (float): The seconds part of the DMS coordinate.
-    
-    Returns:
-    float: The decimal degrees.
-    """
     dd = abs(degrees) + minutes / 60 + seconds / 3600
     return dd if degrees >= 0 else -dd
 
@@ -34,9 +22,9 @@ def convert_dms_to_dd():
         
         result_label.config(text=f"Latitude: {lat_decimal_degrees:.6f}, Longitude: {lon_decimal_degrees:.6f}")
     except ValueError:
-        messagebox.showerror("Invalid input", "Please enter valid numbers for degrees, minutes, and seconds.")
+        ctk.CTkMessageBox.show_error("Invalid input", "Please enter valid numbers for degrees, minutes, and seconds.")
     except Exception as e:
-        messagebox.showerror("Error", str(e))
+        ctk.CTkMessageBox.show_error("Error", str(e))
 
 def copy_to_clipboard():
     result_text = result_label.cget("text")
@@ -45,59 +33,61 @@ def copy_to_clipboard():
         lat = lat_lon[0].split(": ")[1]
         lon = lat_lon[1].split(": ")[1]
         pyperclip.copy(f"Latitude: {lat}, Longitude: {lon}")
-        messagebox.showinfo("Copied", "Latitude and Longitude copied to clipboard.")
+        ctk.CTkMessageBox.show_info("Copied", "Latitude and Longitude copied to clipboard.")
 
 def open_profile(event):
-    webbrowser.open("https://github.com/jeturgavli")  
+    webbrowser.open("https://github.com/jeturgavli")
 
-root = tk.Tk()
-root.title("DMS to Decimal Degrees Converter")
+ctk.set_appearance_mode("System")
+ctk.set_default_color_theme("blue")
 
-input_frame = tk.Frame(root)
+root = ctk.CTk()
+root.title("DMS to Decimal Degrees Converter - JETRock Version 1.0")
+
+input_frame = ctk.CTkFrame(root)
 input_frame.grid(row=0, column=0, padx=10, pady=10)
 
-tk.Label(input_frame, text="Latitude Degrees:").grid(row=0, column=0, padx=10, pady=5)
-lat_degrees_entry = tk.Entry(input_frame)
+ctk.CTkLabel(input_frame, text="Latitude Degrees:").grid(row=0, column=0, padx=10, pady=5)
+lat_degrees_entry = ctk.CTkEntry(input_frame)
 lat_degrees_entry.grid(row=0, column=1, padx=10, pady=5)
 
-tk.Label(input_frame, text="Latitude Minutes:").grid(row=1, column=0, padx=10, pady=5)
-lat_minutes_entry = tk.Entry(input_frame)
+ctk.CTkLabel(input_frame, text="Latitude Minutes:").grid(row=1, column=0, padx=10, pady=5)
+lat_minutes_entry = ctk.CTkEntry(input_frame)
 lat_minutes_entry.grid(row=1, column=1, padx=10, pady=5)
 
-tk.Label(input_frame, text="Latitude Seconds:").grid(row=2, column=0, padx=10, pady=5)
-lat_seconds_entry = tk.Entry(input_frame)
+ctk.CTkLabel(input_frame, text="Latitude Seconds:").grid(row=2, column=0, padx=10, pady=5)
+lat_seconds_entry = ctk.CTkEntry(input_frame)
 lat_seconds_entry.grid(row=2, column=1, padx=10, pady=5)
 
-tk.Label(input_frame, text="Longitude Degrees:").grid(row=3, column=0, padx=10, pady=5)
-lon_degrees_entry = tk.Entry(input_frame)
+ctk.CTkLabel(input_frame, text="Longitude Degrees:").grid(row=3, column=0, padx=10, pady=5)
+lon_degrees_entry = ctk.CTkEntry(input_frame)
 lon_degrees_entry.grid(row=3, column=1, padx=10, pady=5)
 
-tk.Label(input_frame, text="Longitude Minutes:").grid(row=4, column=0, padx=10, pady=5)
-lon_minutes_entry = tk.Entry(input_frame)
+ctk.CTkLabel(input_frame, text="Longitude Minutes:").grid(row=4, column=0, padx=10, pady=5)
+lon_minutes_entry = ctk.CTkEntry(input_frame)
 lon_minutes_entry.grid(row=4, column=1, padx=10, pady=5)
 
-tk.Label(input_frame, text="Longitude Seconds:").grid(row=5, column=0, padx=10, pady=5)
-lon_seconds_entry = tk.Entry(input_frame)
+ctk.CTkLabel(input_frame, text="Longitude Seconds:").grid(row=5, column=0, padx=10, pady=5)
+lon_seconds_entry = ctk.CTkEntry(input_frame)
 lon_seconds_entry.grid(row=5, column=1, padx=10, pady=5)
 
-convert_button = tk.Button(input_frame, text="Convert", command=convert_dms_to_dd)
+convert_button = ctk.CTkButton(input_frame, text="Convert", command=convert_dms_to_dd)
 convert_button.grid(row=6, column=0, columnspan=2, pady=10)
 
-result_label = tk.Label(input_frame, text="Latitude: , Longitude: ")
+result_label = ctk.CTkLabel(input_frame, text="Latitude: , Longitude: ")
 result_label.grid(row=7, column=0, columnspan=2, pady=5)
 
-copy_button = tk.Button(input_frame, text="Copy to Clipboard", command=copy_to_clipboard)
+copy_button = ctk.CTkButton(input_frame, text="Copy to Clipboard", command=copy_to_clipboard)
 copy_button.grid(row=8, column=0, columnspan=2, pady=10)
 
-image = Image.open("img/01.jpg")  
-photo = ImageTk.PhotoImage(image)
+image = Image.open("img/01.jpg")
+photo = ctk.CTkImage(image, size=(300, 300))
 
-image_label = tk.Label(root, image=photo)
+image_label = ctk.CTkLabel(root, image=photo, text="")
 image_label.grid(row=0, column=1, padx=10, pady=10)
 image_label.bind("<Button-1>", open_profile)
 
-heading_label = tk.Label(root, text="DMS to Decimal Degrees Converter", font=("Helvetica", 16, "bold"))
+heading_label = ctk.CTkLabel(root, text="DMS to Decimal Degrees Converter", font=("Helvetica", 16, "bold"))
 heading_label.grid(row=1, column=0, columnspan=2, pady=10)
-
 
 root.mainloop()
